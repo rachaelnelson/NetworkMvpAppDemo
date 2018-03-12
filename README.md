@@ -1,6 +1,6 @@
-# NetworkMvpAppDemo
+# Network-Mvp-App-Demo
 An MVP pattern app demoing network, core (boilerplate) ui, and app brand module libraries.
-### Features:
+## Features:
 - Java 8 (lambdas)
 - Retrofit for network services
 - RxJava2 for processes occuring on background threads (ie network calls)
