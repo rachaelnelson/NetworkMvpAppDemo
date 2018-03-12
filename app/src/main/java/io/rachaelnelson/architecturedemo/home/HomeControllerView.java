@@ -98,7 +98,7 @@ public class HomeControllerView extends Controller implements HomeView, HomeAdap
 
     @Override
     public void onEndOfListReached() {
-//        Toast.makeText(getContext(), "That's all the transactions we have for this card", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "You've reached the end of this list", Toast.LENGTH_SHORT).show();
 
     }
 
