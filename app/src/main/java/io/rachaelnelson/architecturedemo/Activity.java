@@ -20,7 +20,7 @@ public class Activity extends BaseActivity {
 
         setContentView(R.layout.activity_base);
 
-        ViewGroup container = findViewById(io.rachaelnelson.coreui.R.id.controller_container);
+        ViewGroup container = findViewById(R.id.controller_container);
 
         router = Conductor.attachRouter(this, container, savedInstanceState);
         if (!router.hasRootController()) {

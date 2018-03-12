@@ -21,21 +21,21 @@ public class HomePresenter {
         disposable = model.getUsers(CachePolicy.CACHE_ELSE_NETWORK)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(users -> view.showData());
+                .subscribe(users -> view.showData(users));
     }
 
     public void refreshData() {
         disposable = model.getUsers(CachePolicy.NETWORK_ONLY)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(users -> view.showData());
+                .subscribe(users -> view.showData(users));
     }
 
     public void pageData(int offset, int limit) {
         disposable = model.pageUsers(offset, limit, CachePolicy.CACHE_ELSE_NETWORK)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(users -> view.showData());
+                .subscribe(users -> view.showData(users));
     }
 
     public void destroy() {

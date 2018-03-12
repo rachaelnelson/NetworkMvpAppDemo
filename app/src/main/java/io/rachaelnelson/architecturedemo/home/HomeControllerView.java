@@ -2,7 +2,6 @@ package io.rachaelnelson.architecturedemo.home;
 
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +9,20 @@ import android.widget.ProgressBar;
 
 import com.bluelinelabs.conductor.Controller;
 
-import io.rachaelnelson.architecturedemo.R;
-import io.rachaelnelson.architecturedemo.model_layer.UserModel;
+import java.util.ArrayList;
+import java.util.List;
 
-public class HomeControllerView extends Controller implements HomeView {
+import io.rachaelnelson.architecturedemo.R;
+import io.rachaelnelson.architecturedemo.model_layer.User;
+import io.rachaelnelson.architecturedemo.model_layer.UserModel;
+import io.rachaelnelson.coreui.InfiniteScrollRecyclerView;
+
+public class HomeControllerView extends Controller implements HomeView, HomeAdapter.UserClickListener, InfiniteScrollRecyclerView.PageEventListener {
 
     private ProgressBar progress;
     private SwipeRefreshLayout refreshLayout;
-    private RecyclerView recycler;
+    private InfiniteScrollRecyclerView recycler;
+    private HomeAdapter adapter;
 
     private HomePresenter presenter;
 
@@ -44,6 +49,9 @@ public class HomeControllerView extends Controller implements HomeView {
         });
 
         recycler = view.findViewById(R.id.recycler);
+        adapter = new HomeAdapter(new ArrayList<>(), this);
+        recycler.setAdapter(adapter);
+        recycler.setPageEventListener(this);
 
         presenter = new HomePresenter(this, new UserModel());
         presenter.fetchData();
@@ -64,20 +72,39 @@ public class HomeControllerView extends Controller implements HomeView {
 
     //region HomeView
     @Override
-    public void showData() {
+    public void showData(List<User> users) {
         progress.setVisibility(View.GONE);
-        //recyclerView.setAdapter(adapter)
+        refreshLayout.setVisibility(View.VISIBLE);
+        adapter = new HomeAdapter(users, this);
+        recycler.setAdapter(adapter);
     }
 
     @Override
-    public void showRefresh() {
+    public void showRefresh(List<User> users) {
         refreshLayout.setRefreshing(false);
-        //recyclerView.setAdapter(adapter)
+        adapter = new HomeAdapter(users, this);
+        recycler.setAdapter(adapter);
     }
 
     @Override
-    public void showPagedData() {
-        //adapter.addItems();
+    public void showPagedData(List<User> users) {
+        adapter.appendItems(users);
+    }
+
+    @Override
+    public void onUserClick(User user) {
+        //// TODO: 3/12/18 do something here
+    }
+
+    @Override
+    public void onEndOfListReached() {
+//        Toast.makeText(getContext(), "That's all the transactions we have for this card", Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void pageItems(int currentListItemCount) {
+        presenter.pageData(currentListItemCount, 100);
     }
     //endregion HomeView
 }
