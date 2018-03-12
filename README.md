@@ -19,7 +19,7 @@ An MVP pattern app demoing network, core (boilerplate) ui, and app brand module 
 ### "coreui" module:
 - A library providing navigation and view inflation methods utilizing Conductor library
 
-### app module:
+### "app" module:
 - The app brand module which provides screens using it's own 
   or other feature library modules (see app.gradle for build order utilizing feature modules)
 
